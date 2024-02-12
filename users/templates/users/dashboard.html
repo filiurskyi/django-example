@@ -1,0 +1,107 @@
+{% extends "theme/base.html" %}
+
+{% block content %}
+<div class="grid grid-cols-2">
+
+    <div class="grid grid-rows-1 ">
+        <p class="m-10">Logged in as: {% if user.is_authenticated %}{{ user.username }}{% endif %}</p>
+    </div>
+
+
+    <div class="grid grid-rows-1 justify-items-end">
+        <a href="{% url 'quotes_app:sync_quotes' %}"
+           class="m-10 p-2 text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Update
+            quotes</a>
+    </div>
+</div>
+
+<div class="flex flex-wrap grid-flow-col  justify-center gap-4">
+    <div class="grid flex-wrap pt-10 justify-items-center pb-3">
+        <h1 class="text-5xl mb-5 text-center">My quotes:</h1>
+        <hr class="m-10">
+        {% include "theme/quote_card.html" %}
+
+
+        <div class="grid grid-cols-1 justify-items-center flex-row">
+            <!-- Previous Button -->
+            <div class="grid">
+                {% if page_obj.has_previous %}
+                <a href="?page={{ page_obj.previous_page_number }}"
+                   class="items-center justify-center px-20 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    <svg class="w-3.5 h-3.5 me-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                         fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M13 5H1m0 0 4 4M1 5l4-4"/>
+                    </svg>
+                    Previous
+                </a>
+                {% endif %}
+            </div>
+            <div class="grid">
+                {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}"
+                   class="items-center justify-center px-20 h-10 text-base font-medium text-gray-500 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">
+                    Next
+                    <svg class="w-3.5 h-3.5 ms-2 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                         fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                    </svg>
+                </a>
+                {% endif %}
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="flex-wrap grid">
+
+
+        <!--authors section-->
+        <div>
+            <div class="pt-10 pb-3">
+                <h1 class="text-5xl text-center mb-5">My Authors:</h1>
+                <hr class="m-10">
+            </div>
+            <div class="pb-2 p-5">
+
+                {% for author in authors %}
+                <div class="p-2">
+                    <a href="{% url 'quotes_app:specific_author' author.id %}"
+                       class="font-normal text-gray-700 dark:text-gray-600 hover:text-blue-500">{{ author.fullname }}</a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+
+        <!--tags section-->
+        <div class="pt-10 pb-3">
+            <h1 class="text-5xl text-center mb-5">My Tags:</h1>
+            <hr class="m-10">
+        </div>
+
+        <div class="grid pb-5">
+            {% for tag in tags %}
+            <div class="grid grid-cols-2 p-2 ">
+                <div class="gird">
+                    <a href="{% url 'quotes_app:specific_tag' tag %}"
+                       class="font-normal text-gray-700 dark:text-gray-600 hover:text-blue-500">#{{ tag.word }}</a>
+                </div>
+                <div class="flex font-normal text-sm text-gray-700 dark:text-gray-600 place-content-center ">
+                    {% if tag.created_by and tag.created_by.id == user.id %}
+                    <div class="text-blue-600">
+                        <a href="{% url 'users:edit_tag' tag.id %}" class="#">Edit tag</a>
+                    </div>
+                    <div class="text-red-600">
+                        <a href="{% url 'users:delete_tag' tag.id %}">Delete tag</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

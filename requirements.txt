@@ -1,0 +1,8 @@
+python-dotenv
+django
+celery
+psycopg2-binary
+requests
+beautifulsoup4
+redis
+lxml

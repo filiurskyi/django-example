@@ -1,0 +1,27 @@
+{% extends "theme/base.html" %}
+
+{% block content %}
+
+<div class="flex items-center justify-center pt-10 pb-3">
+    <h1 class="text-5xl mb-5">Add Author</h1>
+
+</div>
+
+<form method="post">
+{% csrf_token %}
+    fullname:
+    {{ form.fullname }}
+    born_date:
+    {{ form.born_date }}
+    born_location:
+    {{ form.born_location }}
+    description:
+    {{ form.description }}
+    <button type="submit"
+            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+        Submit
+    </button>
+</form>
+
+
+{% endblock %}
