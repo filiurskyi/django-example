@@ -76,7 +76,7 @@ pip install -r requirements.txt
 ```
 
 # Contributing
-Contributions are welcome! Please feel free to submit issues or pull requests.
+Interested in contributing? We welcome contributions of all kinds! Check out our [Contributor's Guide](CONTRIBUTING.md) to get started.
 
 # License
 This project is licensed under the MIT License.
